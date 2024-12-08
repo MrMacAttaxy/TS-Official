@@ -173,10 +173,30 @@
 
         document.getElementById('fullscreenBtn').addEventListener('click', function() {
             const windowElement = document.getElementById('browserWindow');
+            
+            // Check if the document is not already in fullscreen
             if (!document.fullscreenElement) {
-                windowElement.requestFullscreen();
+                // Request fullscreen for the window
+                if (windowElement.requestFullscreen) {
+                    windowElement.requestFullscreen();
+                } else if (windowElement.mozRequestFullScreen) { // Firefox
+                    windowElement.mozRequestFullScreen();
+                } else if (windowElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    windowElement.webkitRequestFullscreen();
+                } else if (windowElement.msRequestFullscreen) { // IE/Edge
+                    windowElement.msRequestFullscreen();
+                }
             } else {
-                document.exitFullscreen();
+                // Exit fullscreen mode
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
             }
         });
 
