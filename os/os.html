@@ -175,7 +175,7 @@
             const windowElement = document.getElementById('browserWindow');
             
             // Check if the document is not already in fullscreen
-            if (!document.fullscreenElement) {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
                 // Request fullscreen for the window
                 if (windowElement.requestFullscreen) {
                     windowElement.requestFullscreen();
