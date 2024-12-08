@@ -274,14 +274,11 @@
                         document.getElementById('browserPercent').innerText = browserProgress + '%';
                     } else {
                         clearInterval(browserLoadingInterval);
-                        document.getElementById('browserIframe').src = urlcode;
+                        document.getElementById('browserIframe').src = '/os/browser/iframe.html#' + urlcode;
+                        document.getElementById('browserLoadingContainer').style.display = 'none';
                     }
                 }, 100);
             }
-        });
-
-        document.getElementById('openBrowserBtn').addEventListener('click', function() {
-            document.getElementById('browserWindow').style.display = 'block';
         });
 
         document.getElementById('fullscreenBtn').addEventListener('click', function() {
