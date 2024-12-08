@@ -163,7 +163,7 @@
                 if (!urlcode.startsWith('http://') && !urlcode.startsWith('https://')) {
                     urlcode = 'https://' + urlcode;
                 }
-                document.getElementById('browserIframe').src = '/os/browser/iframe.html#' + urlcode;
+                document.getElementById('browserIframe').src = urlcode;  // Directly use the URL
             }
         });
 
