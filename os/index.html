@@ -274,27 +274,10 @@
                         document.getElementById('browserPercent').innerText = browserProgress + '%';
                     } else {
                         clearInterval(browserLoadingInterval);
-                        document.getElementById('browserIframe').src = '/os/browser/iframe.html#' + urlcode;
+                        document.getElementById('browserIframe').src = urlcode;
                     }
-                }, 50);
+                }, 100);
             }
-        });
-
-        document.getElementById('browserIframe').addEventListener('load', function() {
-            document.getElementById('browserLoadingContainer').style.display = 'none';
-        });
-
-        document.getElementById('fullscreenBtn').addEventListener('click', function() {
-            const windowElement = document.getElementById('browserWindow');
-            if (!document.fullscreenElement) {
-                windowElement.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        });
-
-        document.getElementById('closeBtn').addEventListener('click', function() {
-            document.getElementById('browserWindow').style.display = 'none';
         });
 
         document.getElementById('openBrowserBtn').addEventListener('click', function() {
@@ -314,7 +297,8 @@
         document.addEventListener('mousemove', function(event) {
             if (isMouseDown) {
                 const windowElement = document.getElementById('browserWindow');
-                windowElement.style.transform = `translate(${event.clientX - offsetX}px, ${event.clientY - offsetY}px)`;
+                windowElement.style.left = (event.clientX - offsetX) + 'px';
+                windowElement.style.top = (event.clientY - offsetY) + 'px';
             }
         });
 
