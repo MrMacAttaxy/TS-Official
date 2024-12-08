@@ -284,6 +284,15 @@
             document.getElementById('browserWindow').style.display = 'block';
         });
 
+        document.getElementById('fullscreenBtn').addEventListener('click', function() {
+            const windowElement = document.getElementById('browserWindow');
+            if (!document.fullscreenElement) {
+                windowElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
         let isMouseDown = false;
         let offsetX, offsetY;
 
@@ -297,6 +306,7 @@
         document.addEventListener('mousemove', function(event) {
             if (isMouseDown) {
                 const windowElement = document.getElementById('browserWindow');
+                windowElement.style.position = 'absolute';
                 windowElement.style.left = (event.clientX - offsetX) + 'px';
                 windowElement.style.top = (event.clientY - offsetY) + 'px';
             }
