@@ -22,10 +22,6 @@
             color: #ecf0f1;
         }
 
-        .login-screen, .loading-container, .content, .browser-loading-container {
-            display: none;
-        }
-
         .login-screen {
             display: flex;
             justify-content: center;
@@ -49,7 +45,7 @@
             color: white;
         }
 
-        .loading-container, .browser-loading-container {
+        .loading-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -58,6 +54,10 @@
             left: 50%;
             transform: translate(-50%, -50%);
             flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
         }
 
         .loading-bar, .browser-loading-bar {
@@ -87,6 +87,7 @@
             height: 100%;
             flex-direction: column;
             position: relative;
+            display: none;
         }
 
         .taskbar {
@@ -201,14 +202,14 @@
         <input type="password" id="login-input" placeholder="Password (Anything)">
     </div>
 
-    <div class="loading-container" id="loadingContainer">
+    <div class="loading-container" id="loadingContainer" style="display:none;">
         <div class="loading-bar">
             <div class="loading-progress" id="loadingProgress"></div>
         </div>
         <div class="percent" id="percent">0%</div>
     </div>
 
-    <div class="os" id="osScreen" style="display:none;">
+    <div class="os" id="osScreen">
         <div class="window" id="browserWindow">
             <div class="window-header">
                 <span class="window-title">Browser</span>
@@ -230,6 +231,7 @@
         </div>
 
         <button class="open-browser-btn" id="openBrowserBtn">Open Browser</button>
+
         <div class="taskbar">
             <div class="taskbar-item" id="taskbarBrowser">Browser</div>
         </div>
@@ -249,7 +251,7 @@
                     } else {
                         clearInterval(loadingInterval);
                         document.getElementById('loadingContainer').style.display = 'none';
-                        document.getElementById('osScreen').style.display = 'block';
+                        document.getElementById('osScreen').style.display = 'flex';
                     }
                 }, 100);
             }
@@ -303,6 +305,10 @@
 
         document.getElementById('closeBtn').addEventListener('click', function() {
             document.getElementById('browserWindow').style.display = 'none';
+        });
+
+        document.getElementById('openBrowserBtn').addEventListener('click', function() {
+            document.getElementById('browserWindow').style.display = 'block';
         });
     </script>
 </body>
