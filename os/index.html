@@ -22,7 +22,7 @@
             color: #ecf0f1;
         }
 
-        .login-screen, .loading-container, .content {
+        .login-screen, .loading-container, .content, .browser-loading-container {
             display: none;
         }
 
@@ -49,7 +49,7 @@
             color: white;
         }
 
-        .loading-container {
+        .loading-container, .browser-loading-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -60,7 +60,7 @@
             flex-direction: column;
         }
 
-        .loading-bar {
+        .loading-bar, .browser-loading-bar {
             width: 200px;
             height: 20px;
             background-color: #7f8c8d;
@@ -69,7 +69,7 @@
             margin-bottom: 20px;
         }
 
-        .loading-progress {
+        .loading-progress, .browser-loading-progress {
             height: 100%;
             background-color: #2980b9;
             width: 0;
@@ -219,6 +219,12 @@
             </div>
             <div class="window-content">
                 <input type="text" id="urlInput" placeholder="Enter URL and press Enter">
+                <div class="browser-loading-container" id="browserLoadingContainer" style="display:none;">
+                    <div class="browser-loading-bar">
+                        <div class="browser-loading-progress" id="browserLoadingProgress"></div>
+                    </div>
+                    <div class="percent" id="browserPercent">0%</div>
+                </div>
                 <iframe id="browserIframe" src="about:blank"></iframe>
             </div>
         </div>
@@ -255,7 +261,18 @@
                 if (!urlcode.startsWith('http://') && !urlcode.startsWith('https://')) {
                     urlcode = 'https://' + urlcode;
                 }
-                document.getElementById('browserIframe').src = '/os/browser/iframe.html#' + urlcode;
+                document.getElementById('browserLoadingContainer').style.display = 'flex';
+                let browserProgress = 0;
+                let browserLoadingInterval = setInterval(function() {
+                    if (browserProgress < 100) {
+                        browserProgress += 2;
+                        document.getElementById('browserLoadingProgress').style.width = browserProgress + '%';
+                        document.getElementById('browserPercent').innerText = browserProgress + '%';
+                    } else {
+                        clearInterval(browserLoadingInterval);
+                        document.getElementById('browserIframe').src = '/os/browser/iframe.html#' + urlcode;
+                    }
+                }, 50);
             }
         });
 
@@ -286,32 +303,6 @@
 
         document.getElementById('closeBtn').addEventListener('click', function() {
             document.getElementById('browserWindow').style.display = 'none';
-            document.getElementById('urlInput').value = '';
-        });
-
-        document.getElementById('openBrowserBtn').addEventListener('click', function() {
-            document.getElementById('browserWindow').style.display = 'block';
-        });
-
-        let isMouseDown = false;
-        let offsetX, offsetY;
-
-        const header = document.querySelector('.window-header');
-        header.addEventListener('mousedown', function(event) {
-            isMouseDown = true;
-            offsetX = event.clientX - header.getBoundingClientRect().left;
-            offsetY = event.clientY - header.getBoundingClientRect().top;
-        });
-
-        document.addEventListener('mousemove', function(event) {
-            if (isMouseDown) {
-                const windowElement = document.getElementById('browserWindow');
-                windowElement.style.transform = `translate(${event.clientX - offsetX}px, ${event.clientY - offsetY}px)`;
-            }
-        });
-
-        document.addEventListener('mouseup', function() {
-            isMouseDown = false;
         });
     </script>
 </body>
